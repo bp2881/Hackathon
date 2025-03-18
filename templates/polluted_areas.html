@@ -64,68 +64,53 @@
             overflow: hidden;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-
-        /* Address Input */
-        .address-container {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .address-container input {
-            width: 300px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-
-        .address-container button {
-            margin-top: 10px;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-
-        .address-container button:hover {
-            background-color: #0056b3;
-        }
     </style>
+    <!-- Include Leaflet CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        function loadMap() {
-            const map = document.getElementById("map-frame");
-            const address = document.getElementById("address-input").value;
-            if (address) {
-                const encodedAddress = encodeURIComponent(address);
-                map.src = `https://www.google.com/maps?q=${encodedAddress}&output=embed`;
-            } else {
-                alert("Please enter an address.");
+        // Function to load your location from JSON and mark it on the map
+        async function loadLocation() {
+            try {
+                // Fetch the JSON file
+                const response = await fetch('/static/location_details.json'); // Path to your JSON file
+                const location = await response.json();
+
+                // Extract location details
+                const { city, region, country, lat, lon, ip } = location;
+
+                // Initialize the map
+                const map = L.map('map').setView([lat, lon], 15); // Zoom level set to 15
+
+                // Add the tile layer (OpenStreetMap)
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '©️ OpenStreetMap contributors'
+                }).addTo(map);
+
+                // Add a marker for your location
+                L.marker([lat, lon], { icon: L.icon({ iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Map_pin_icon_green.svg', iconSize: [25, 41], iconAnchor: [12, 41] }) }).addTo(map)
+                    .bindPopup(`<b>${city}, ${region}</b><br>${country}<br>IP: ${ip}`)
+                    .openPopup();
+            } catch (error) {
+                console.error("Error loading location: ", error);
             }
         }
+
+        // Load your location when the page loads
+        window.onload = loadLocation;
     </script>
 </head>
 <body>
+    <!-- Navbar with Earth Icon -->
     <div class="navbar">
-        <!-- Earth Icon to Redirect to Home -->
         <a href="/">
             <img src="/static/earth.png" alt="Home" class="earth-icon">
         </a>
     </div>
 
-    <div class="address-container">
-        <h2>Find Pollution Levels Near You</h2>
-        <input type="text" id="address-input" placeholder="Enter your address">
-        <button onclick="loadMap()">Check Location</button>
-    </div>
-
+    <!-- Map Container -->
     <div class="map-container">
-        <iframe id="map-frame" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <div id="map" style="width: 100%; height: 100%;"></div>
     </div>
 </body>
 </html>

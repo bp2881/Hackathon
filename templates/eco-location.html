@@ -7,17 +7,10 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         body {
-            /* Background image for the entire page */
-            background-image: url('/static/nature-3082832_1920.jpg');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            color: white;
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #e0f7fa, #80cbc4);
             color: #333;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         h1 {
             text-align: center;
@@ -25,38 +18,20 @@
             font-size: 40px;
             color: #00695c;
         }
-        input, button {
-            margin: 10px 0;
-            padding: 12px;
-            width: 100%;
-            border-radius: 8px;
-            border: 2px solid #00695c;
-            outline: none;
-        }
-        button {
-            background-color: #004d40;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #00796b;
-        }
         .navbar {
             background-color: #004d40;
             padding: 15px;
             display: flex;
-            justify-content: flex-start; /* Align icon to the left */
+            justify-content: flex-start;
             align-items: center;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 10;
         }
-        /* Earth Icon */
         .earth-icon {
-            width: 30px; /* Adjusted size */
-            height: 30px; /* Adjusted size */
+            width: 30px;
+            height: 30px;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
@@ -89,85 +64,47 @@
     </div>
 
     <h1>Nature Places in India</h1>
-    <div style="width: 80%; margin: 20px auto;">
-        <input type="text" id="placeName" placeholder="Place Name">
-        <input type="text" id="countryName" placeholder="Country" value="India" readonly>
-        <input type="text" id="area" placeholder="Area">
-        <button onclick="addPlace()">Add Place</button>
-    </div>
     <div id="placesList"></div>
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        const places = {};
         const map = L.map('map').setView([20.5937, 78.9629], 5);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '©️ OpenStreetMap contributors'
         }).addTo(map);
 
-        function addPlace() {
-            const name = document.getElementById("placeName").value;
-            const country = document.getElementById("countryName").value;
-            const area = document.getElementById("area").value;
+        // Function to fetch and display your location from JSON
+        async function loadLocation() {
+            try {
+                // Fetch the JSON file
+                const response = await fetch('/static/location_details.json'); // Path to your JSON file
+                const location = await response.json();
 
-            if (name && country && area) {
-                if (!/^[a-zA-Z ]+$/.test(name)) {
-                    alert('Invalid place name. Please use letters and spaces only.');
-                    return;
-                }
-                if (!/^[a-zA-Z ]+$/.test(area)) {
-                    alert('Invalid area name. Please use letters and spaces only.');
-                    return;
-                }
-                if (!places[country]) {
-                    places[country] = [];
-                }
-                places[country].push({ name, area });
-                fetchLocation(name + ', ' + country);
-                displayPlaces();
+                // Extract location details
+                const { city, region, country, lat, lon, ip } = location;
 
-                document.getElementById("placeName").value = "";
-                document.getElementById("area").value = "";
+                // Add marker to the map
+                L.marker([lat, lon], { icon: L.icon({ iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Map_pin_icon_green.svg', iconSize: [25, 41], iconAnchor: [12, 41] }) }).addTo(map)
+                    .bindPopup(`<b>${city}, ${region}</b><br>${country}<br>IP: ${ip}`)
+                    .openPopup();
+
+                // Center the map on your location
+                map.setView([lat, lon], 10);
+
+                // Display location in the list
+                const placesList = document.getElementById("placesList");
+                const placeDiv = document.createElement("div");
+                placeDiv.textContent = `${city}, ${region}, ${country}`;
+                placesList.appendChild(placeDiv);
+            } catch (error) {
+                console.error("Error loading location: ", error);
             }
         }
 
-        function fetchLocation(query) {
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.length > 0) {
-                        const { lat, lon } = data[0];
-                        L.marker([lat, lon], { icon: L.icon({ iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Map_pin_icon_green.svg', iconSize: [25, 41], iconAnchor: [12, 41] }) }).addTo(map)
-                            .bindPopup(`<b>${query}</b>`)
-                            .openPopup();
-                        map.setView([lat, lon], 8);
-                    }
-                })
-                .catch(err => console.error("Error fetching location: ", err));
-        }
-
-        function displayPlaces() {
-            const placesList = document.getElementById("placesList");
-            placesList.innerHTML = "";
-            const errorMessage = document.createElement("div");
-            errorMessage.style.color = "red";
-            placesList.appendChild(errorMessage);
-
-            for (const country in places) {
-                const countryDiv = document.createElement("div");
-                countryDiv.innerHTML = `<strong>${country}</strong>`;
-
-                places[country].forEach(place => {
-                    const placeDiv = document.createElement("div");
-                    placeDiv.textContent = `${place.name} - ${place.area}`;
-                    countryDiv.appendChild(placeDiv);
-                });
-
-                placesList.appendChild(countryDiv);
-            }
-        }
+        // Load your location when the page loads
+        loadLocation();
     </script>
 </body>
 </html>
