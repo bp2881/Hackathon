@@ -89,8 +89,14 @@
                 locations.forEach(location => {
                     const { name, region, country, lat, lon } = location;
 
-                    // Add marker to the map
-                    const marker = L.marker([lat, lon], { icon: L.icon({ iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Map_pin_icon_green.svg', iconSize: [25, 41], iconAnchor: [12, 41] }) }).addTo(map)
+                    // Add marker to the map with custom icon
+                    const marker = L.marker([lat, lon], {
+                        icon: L.icon({
+                            iconUrl: '/static/gps.png', // Path to your custom icon
+                            iconSize: [30, 30], // Adjust size as needed
+                            iconAnchor: [15, 30] // Adjust anchor point as needed
+                        })
+                    }).addTo(map)
                         .bindPopup(`<b>${name}</b><br>${region}, ${country}`);
 
                     // Extend the bounds to include this marker
