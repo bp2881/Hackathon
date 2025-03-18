@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot - ECO-FRIENDLY</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #11998e, #38ef7d);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .chat-container {
+            width: 90%;
+            max-width: 500px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .chat-box {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .chat-box p {
+            margin: 5px 0;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffeb3b;
+            color: black;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>Chatbot</h1>
+        <div class="chat-box" id="chat-box">
+            <p><strong>Bot:</strong> Hello! How can I assist you today?</p>
+        </div>
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            if (userInput.trim() === "") return;
+
+            const chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
+
+            // Simulate bot response
+            setTimeout(() => {
+                chatBox.innerHTML += `<p><strong>Bot:</strong> Thank you for your message! How can I assist you further?</p>`;
+                chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
+            }, 1000);
+
+            document.getElementById("user-input").value = ""; // Clear input
+        }
+    </script>
+</body>
+</html>

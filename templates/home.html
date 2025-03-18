@@ -127,6 +127,21 @@
         .feedback-button:hover {
             background-color: #0056b3;
         }
+        /* Chat Icon */
+        .chat-icon {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background-color: transparent; /* Make background transparent */
+            padding: 0; /* Remove padding */
+            border-radius: 50%; /* Keep it circular */
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .chat-icon:hover {
+            transform: scale(1.1);
+        }
     </style>
     <script>
         let slideIndex = 0;
@@ -157,6 +172,7 @@
             <a href="/eco-location">Eco-Locations</a>
             <a href="/stores">Stores</a>
             <a href="/about-us">About Us</a>
+            <!-- Removed Chatbot link from navbar -->
         </div>
         <div class="login-signup">
             <a href="/login">Login</a>
@@ -178,6 +194,10 @@
     </div>
     <div class="feedback-button" onclick="window.location.href='/feedback'">
         Feedback
+    </div>
+    <!-- Chat Icon -->
+    <div class="chat-icon" onclick="window.location.href='/chatbot'"> <!-- Ensure this links to the chatbot page -->
+        <img src="/static/happy.png" alt="Chat" style="width: 60px; height: 60px;">
     </div>
 </body>
 </html>
