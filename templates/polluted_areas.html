@@ -78,7 +78,7 @@
             color: white;
             cursor: pointer;
             font-size: 1rem;
-            transition: background 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
         .address-container button:hover {
@@ -91,13 +91,13 @@
             const address = document.getElementById("address-input").value;
             if (address) {
                 const encodedAddress = encodeURIComponent(address);
-                map.src = https://www.google.com/maps?q=${encodedAddress}&output=embed;
+                map.src = `https://www.google.com/maps?q=${encodedAddress}&output=embed`;
             } else {
                 alert("Please enter an address.");
             }
         }
     </script>
-</head> 
+</head>
 <body>
     <div class="navbar">
         <a href="/">← Back to Home</a>

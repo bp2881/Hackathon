@@ -6,31 +6,35 @@ app = Flask(__name__)
 def hello_world():
     return render_template('home.html')
 
-@app.route('/about')
+@app.route('/about-us')
 def about():
-    return render_template('about.html')
+    return render_template('aboutus.html')
 
-@app.route('/contact')
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
+
+@app.route('/contactus')
 def contact():
-    return render_template('contact.html')
+    return render_template('contactus.html')
 
 #create for render login.html
 @app.route('/login')
 def login():
     return render_template('login.html')
 
-#create for render register.html
-@app.route('/register')
-def register():
-    return render_template('register.html')
 
-@app.route('/eco-locations')
+@app.route('/eco-location')
 def ecolocation():
     return render_template('eco-location.html')
 
-@app.route('/polluted-areas')
+@app.route('/pollutedareas')
 def pollutedarea():
     return render_template('polluted_areas.html')
+
+@app.route('/stores')
+def stores():
+    return render_template('stores.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
