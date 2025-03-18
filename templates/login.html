@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Friendly Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .navbar {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        .navbar a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #2d6a4f;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+        .navbar a:hover {
+            color: #fff;
+            background-color: #1b4332;
+        }
+        .auth-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .container {
+            margin-top: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        h1 {
+            font-size: 4rem;
+            color: #fff;
+        }
+        p {
+            color: #e0f7e9;
+            margin-bottom: 20px;
+        }
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 300px;
+            margin-top: 20px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-container button {
+            background-color: #2d6a4f;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .login-container button:hover {
+            background-color: #1b4332;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div>
+            <a href="/polluted-areas">Polluted Areas</a>
+            <a href="/eco-tips">Eco-Tips</a>
+            <a href="/eco-locations">Eco-Locations</a>
+            <a href="/stores">Stores</a>
+        </div>
+        <div class="auth-links">
+            <a href="/login">Login</a> | <a href="/signup">Sign Up</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Eco-Friendly Portal</h1>
+        <p>Join Us in Making the Planet Greener and Cleaner</p>
+        <div class="login-container">
+            <h2>Login</h2>
+            <form>
+                <input type="text" placeholder="Username" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p><a href="/signup">Don't have an account? Sign up</a></p>
+        </div>
+    </div>
+</body>
+</html>
