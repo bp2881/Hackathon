@@ -5,11 +5,9 @@ import os
 
 app = Flask(__name__)
 
-# Paths to data files
-data_path = "aqi_data.csv"  # Path to the AQI data file
-location_path = "static/location_details.json"  # Path to the location details file
+data_path = "./static/aqi_data.csv"  # Path to the AQI data file
+location_path = "./static/location_details.json"  # Path to the location details file
 
-# Function to fetch AQI data for a specific city
 def get_aqi_data(city_name):
     try:
         with open(data_path, mode='r', encoding='utf-8') as file:
@@ -27,7 +25,6 @@ def get_aqi_data(city_name):
     except Exception as e:
         return {"error": str(e)}
 
-# Function to get the city name from location_details.json
 def get_city_from_location():
     try:
         with open(location_path, 'r') as file:
@@ -36,10 +33,16 @@ def get_city_from_location():
     except Exception as e:
         return ""
 
-# Home route
 @app.route('/')
 def home():
     return render_template('home.html')
+
+@app.route('/aqi', methods=['GET'])
+def aqi():
+    city = request.args.get('city', get_city_from_location())
+    if not city:
+        return jsonify({"error": "Could not determine city from location."})
+    return jsonify(get_aqi_data(city))
 
 # About Us route
 @app.route('/about-us')
@@ -90,14 +93,6 @@ def stores():
 @app.route('/chatbot')
 def chatbot():
     return render_template("chatbot.html")
-
-# AQI API route
-@app.route('/aqi', methods=['GET'])
-def aqi():
-    city = get_city_from_location()
-    if not city:
-        return jsonify({"error": "Could not determine city from location."})
-    return jsonify(get_aqi_data(city))
 
 if __name__ == '__main__':
     app.run(debug=True)
