@@ -127,14 +127,13 @@
         .feedback-button:hover {
             background-color: #0056b3;
         }
-        /* Chat Icon */
         .chat-icon {
             position: fixed;
             right: 20px;
             bottom: 20px;
-            background-color: transparent; /* Make background transparent */
-            padding: 0; /* Remove padding */
-            border-radius: 50%; /* Keep it circular */
+            background-color: transparent;
+            padding: 0;
+            border-radius: 50%;
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease;
@@ -162,7 +161,7 @@
         <div class="slide" style="background-image: url('/static/nature-3082832_1920.jpg');"></div>
         <div class="slide" style="background-image: url('/static/Tips-for-Sustainable-Living-During-the-Winter.jpg');"></div>
         <div class="slide" style="background-image: url('/static/wallpaperflare.com_wallpaper.jpg');"></div>
-        <div class="slide" style="background-image: url('/static/wallpaperflare.com_wallpaper\ \(1\).jpg');"></div>
+        <div class="slide" style="background-image: url('/static/wallpaperflare.com_wallpaper (1).jpg');"></div>
     </div>
     <div class="overlay"></div>
     <div class="navbar">
@@ -172,11 +171,9 @@
             <a href="/eco-location">Eco-Locations</a>
             <a href="/stores">Get City Aqi</a>
             <a href="/about-us">About Us</a>
-            <!-- Removed Chatbot link from navbar -->
         </div>
         <div class="login-signup">
             <a href="/login">Login</a>
-            <span style="color: white; margin: 0 4px;">|</span>
             <a href="/signup">Sign Up</a>
         </div>
     </div>
@@ -187,16 +184,15 @@
     <div class="sidebar">
         <h3>Leader-Board</h3>
         <ul>
-            <li>Eco Hero - 1500 points</li>
-            <li>Green Warrior - 1200 points</li>
-            <li>Nature Guardian - 1000 points</li>
+            {% for user, data in leaderboard %}
+            <li>{{ user }} - {{ data.streak }} days</li>
+            {% endfor %}
         </ul>
     </div>
     <div class="feedback-button" onclick="window.location.href='/feedback'">
         Feedback
     </div>
-    <!-- Chat Icon -->
-    <div class="chat-icon" onclick="window.location.href='/chatbot'"> <!-- Ensure this links to the chatbot page -->
+    <div class="chat-icon" onclick="window.location.href='/chatbot'">
         <img src="/static/happy.png" alt="Chat" style="width: 60px; height: 60px;">
     </div>
 </body>

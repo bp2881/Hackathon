@@ -73,21 +73,6 @@
             display: flex;
             align-items: center;
         }
-        .auth-links a {
-            color: #007bff;
-            font-weight: bold;
-            margin: 0 6px;
-            text-decoration: none;
-        }
-        .auth-links a:hover {
-            color: white;
-            background-color: #007bff;
-        }
-        .auth-links a + a::before {
-            content: '|';
-            margin: 0 4px;
-            color: white;
-        }
         .user-icon {
             width: 40px;
             height: 40px;
@@ -99,6 +84,15 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            margin-right: 10px;
+        }
+        .streak {
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 8px 12px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
             margin-right: 10px;
         }
         .logout-link {
@@ -133,37 +127,6 @@
             margin: 0;
             padding: 10px;
             font-size: 1.5rem;
-        }
-        .login-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 300px;
-            margin-top: 20px;
-        }
-        .login-container input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-family: Arial, sans-serif;
-        }
-        .login-container button {
-            background-color: #2d6a4f;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-        }
-        .login-container button:hover {
-            background-color: #1b4332;
         }
         .sidebar {
             position: fixed;
@@ -221,40 +184,29 @@
             <a href="/pollutedareas">Polluted Areas</a>
             <a href="/eco-tips">Eco-Tips</a>
             <a href="/eco-location">Eco-Locations</a>
-            <a href="/stores">Get City Aqi</a>
+            <a href="/stores">Stores</a>
             <a href="/about-us">About Us</a>
         </div>
         <div class="auth-links">
-            {% if username %}
+            <span class="streak">Streak: {{ streak|default(0) }}</span>
             <div class="user-icon">{{ user_initial }}</div>
-            <a href="/" class="logout-link">Logout</a>
-            {% else %}
-            <a href="/login">Login</a>
-            <a href="/signup">Sign Up</a>
-            {% endif %}
+            <a href="/logout" class="logout-link">Logout</a> <!-- Updated to /logout -->
         </div>
     </div>
     <div class="container">
         <h1>ECO-FRIENDLY: SUSTAINABILITY PLATFORM</h1>
         <p>Sustainable living is essential for maintaining our planet's health. Simple steps like conserving energy, reducing waste, and supporting eco-friendly practices can make a significant difference. Together, we can create a cleaner, greener future for generations to come.</p>
-        {% if not username %}
-        <div class="login-container">
-            <h2>Login</h2>
-            <form id="loginForm" action="/login" method="POST">
-                <input type="text" name="username" placeholder="Username" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-            </form>
-            <p><a href="/signup">Don't have an account? Sign up</a></p>
-        </div>
-        {% endif %}
     </div>
     <div class="sidebar">
         <h3>Leader-Board</h3>
         <ul>
-            <li>Eco Hero - 1500 points</li>
-            <li>Green Warrior - 1200 points</li>
-            <li>Nature Guardian - 1000 points</li>
+            {% if leaderboard %}
+                {% for user, data in leaderboard %}
+                    <li>{{ user }} - {{ data.streak|default(0) }} days</li>
+                {% endfor %}
+            {% else %}
+                <li>No leaderboard data available.</li>
+            {% endif %}
         </ul>
     </div>
     <div class="feedback-button" onclick="window.location.href='/feedback'">
@@ -265,7 +217,6 @@
     </div>
 
     <script>
-        // Slideshow functionality
         let slideIndex = 0;
         function showSlides() {
             let slides = document.querySelectorAll(".slide");
@@ -276,20 +227,6 @@
             setTimeout(showSlides, 7000);
         }
         document.addEventListener("DOMContentLoaded", showSlides);
-
-        // Login form redirect
-        const loginForm = document.getElementById('loginForm');
-        if (loginForm) {
-            loginForm.addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent the default form submission
-                const username = document.querySelector('input[name="username"]').value;
-                if (username) {
-                    window.location.href = `/home/${username}`;
-                } else {
-                    alert('Please enter a username');
-                }
-            });
-        }
     </script>
 </body>
 </html>

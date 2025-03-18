@@ -1,11 +1,14 @@
 {
     "Pranav": {
-        "password": "1234"
+        "password": "1234",
+        "streak": 7
     },
     "Devesh": {
-        "password": "1234"
+        "password": "1234",
+        "streak": 2
     },
     "Shashank": {
-        "password": "1234"
+        "password": "1234",
+        "streak": 1
     }
 }
