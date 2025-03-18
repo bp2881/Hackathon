@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Polluted Areas - Smart Governance</title>
     <style>
-        /* General Styles */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -16,7 +15,6 @@
             background-color: #f4f4f4;
         }
 
-        /* Navbar */
         .navbar {
             width: 100%;
             background-color: rgba(0, 128, 0, 0.8);
@@ -43,10 +41,9 @@
             background-color: #1b4332;
         }
 
-        /* Earth Icon */
         .earth-icon {
-            width: 30px; /* Adjusted size */
-            height: 30px; /* Adjusted size */
+            width: 30px;
+            height: 30px;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
@@ -55,7 +52,6 @@
             transform: scale(1.1);
         }
 
-        /* Map Container */
         .map-container {
             width: 80%;
             height: 500px;
@@ -65,7 +61,6 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Address Input */
         .address-container {
             margin-top: 20px;
             display: flex;
@@ -96,23 +91,79 @@
         .address-container button:hover {
             background-color: #0056b3;
         }
+
+        #aqi-data {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
     </style>
     <script>
         function loadMap() {
-            const map = document.getElementById("map-frame");
+            const mapFrame = document.getElementById("map-frame");
             const address = document.getElementById("address-input").value;
+
             if (address) {
                 const encodedAddress = encodeURIComponent(address);
-                map.src = `https://www.google.com/maps?q=${encodedAddress}&output=embed`;
+                mapFrame.src = `https://www.google.com/maps?q=${encodedAddress}&output=embed`;
+                fetchAQIData(address);
+                loadMarkers();
             } else {
                 alert("Please enter an address.");
             }
+        }
+
+        function fetchAQIData(city) {
+            fetch(`/aqi?city=${city}`)
+                .then(response => response.json())
+                .then(data => {
+                    const aqiData = document.getElementById("aqi-data");
+                    if (data.error) {
+                        aqiData.innerHTML = `<strong>Error:</strong> ${data.error}`;
+                    } else {
+                        aqiData.innerHTML = `
+                            <strong>City:</strong> ${data.City} <br>
+                            <strong>AQI:</strong> ${data.AQI} <br>
+                            <strong>CO AQI Category:</strong> ${data["CO AQI Category"]} <br>
+                            <strong>Ozone AQI Category:</strong> ${data["Ozone AQI Category"]}
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching AQI data:", error);
+                });
+        }
+
+        function loadMarkers() {
+            fetch('/stationaries')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error("Error fetching stationaries:", data.error);
+                        return;
+                    }
+
+                    let markers = "";
+                    data.forEach(location => {
+                        const encodedLoc = encodeURIComponent(location.name);
+                        markers += `&markers=color:red%7Clabel:S%7C${encodedLoc}`;
+                    });
+
+                    const address = document.getElementById("address-input").value;
+                    const encodedAddress = encodeURIComponent(address);
+                    document.getElementById("map-frame").src =
+                        `https://www.google.com/maps?q=${encodedAddress}&output=embed${markers}`;
+                })
+                .catch(error => console.error("Error loading markers:", error));
         }
     </script>
 </head>
 <body>
     <div class="navbar">
-        <!-- Earth Icon to Redirect to Home -->
         <a href="/">
             <img src="/static/earth.png" alt="Home" class="earth-icon">
         </a>
@@ -123,6 +174,8 @@
         <input type="text" id="address-input" placeholder="Enter your address">
         <button onclick="loadMap()">Check Location</button>
     </div>
+
+    <div id="aqi-data">Enter a city to see AQI data.</div>
 
     <div class="map-container">
         <iframe id="map-frame" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
