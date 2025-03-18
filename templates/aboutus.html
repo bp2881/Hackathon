@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Friendly Sustainable Living</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #11998e, #38ef7d);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+        .navbar a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .auth-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #ffeb3b;
+            font-weight: bold;
+        }
+
+        /* Eco-Friendly Section */
+        .container {
+            width: 60%;
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            margin: 100px auto;
+            transition: opacity 0.3s ease;
+        }
+        h1 {
+            font-size: 3rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #f1f1f1;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-size: 1.1rem;
+        }
+        .cta {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ffeb3b;
+            color: #000;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: 0.3s ease;
+            display: inline-block;
+        }
+        .cta:hover {
+            background-color: #ffc107;
+        }
+
+        /* Scroll Effect */
+        .container.scrolled {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div>
+            <a href="/polluted-areas">Polluted Areas</a>
+            <a href="/eco-tips">Eco-Tips</a>
+            <a href="/eco-locations">Eco-Locations</a>
+            <a href="/stores">Stores</a>
+        </div>
+        <div class="auth-links">
+            <a href="/login">Login</a> | <a href="/signup">Sign Up</a>
+        </div>
+    </div>
+    
+    <div class="container" id="eco-container">
+        <h1>🌍 Eco-Friendly Sustainable Living</h1>
+        <p><strong>Why Sustainable Living Matters?</strong></p>
+        <p>Our planet needs us to take action. By making small changes in our daily habits, we can help create a cleaner, healthier, and greener world.</p>
+        
+        <p><strong>Simple Ways to Live Sustainably:</strong></p>
+        <ul>
+            <li>♻ Reduce waste by using reusable bags, bottles, and containers.</li>
+            <li>💡 Choose energy-efficient appliances and switch to renewable energy.</li>
+            <li>🌱 Support local and eco-friendly businesses.</li>
+            <li>🥗 Eat a more plant-based diet to lower carbon emissions.</li>
+            <li>🚲 Use public transportation, bike, or carpool to reduce pollution.</li>
+            <li>🌳 Plant trees and support reforestation efforts.</li>
+            <li>💧 Conserve water by fixing leaks and using water-saving devices.</li>
+        </ul>
+        
+        <p><strong>Join Us in Building a Greener Future!</strong></p>
+        <p>Every action counts. Be a part of the solution today! 🌿</p>
+        
+        <a href="/signup" class="cta">Join the Movement</a>
+    </div>
+
+    <script>
+        window.addEventListener("scroll", function () {
+            let ecoDiv = document.getElementById("eco-container");
+            if (window.scrollY > 50) {
+                ecoDiv.classList.add("scrolled");
+            } else {
+                ecoDiv.classList.remove("scrolled");
+            }
+        });
+    </script>
+</body>
+</html>
