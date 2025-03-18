@@ -3,115 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nature Places in India</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <title>Polluted Areas - Smart Governance</title>
     <style>
+        /* General Styles */
         body {
-            background: linear-gradient(135deg, #e0f7fa, #80cbc4);
-            color: #333;
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
         }
-        h1 {
-            text-align: center;
-            margin-top: 60px;
-            font-size: 40px;
-            color: #00695c;
-        }
+
+        /* Navbar */
         .navbar {
-            background-color: #004d40;
-            padding: 15px;
+            width: 100%;
+            background-color: rgba(46, 139, 87, 0.9);
+            padding: 5px;
             display: flex;
             justify-content: flex-start;
             align-items: center;
             position: fixed;
-            width: 100%;
             top: 0;
+            left: 0;
+            color: white;
             z-index: 10;
         }
+
+        .navbar a {
+            color: white;
+            font-weight: bold;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(34, 94, 62, 0.8);
+        }
+
+        /* Earth Icon */
         .earth-icon {
             width: 30px;
             height: 30px;
             cursor: pointer;
+            margin-left: 15px;
             transition: transform 0.3s ease;
         }
+
         .earth-icon:hover {
             transform: scale(1.1);
         }
-        #map {
-            height: 500px;
-            width: 80%;
-            margin: 20px auto;
-            border: 2px solid #004d40;
-            border-radius: 8px;
+
+        /* Content Wrapper */
+        .content {
+            margin-top: 50px;
+            text-align: center;
+            width: 100%;
         }
-        #placesList {
+
+        /* AQI Index Text */
+        .aqi-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0;
+        }
+
+        /* Map Container */
+        .map-container {
             width: 80%;
+            height: 500px;
             margin: 0 auto;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border: 2px solid #2e8b57;
+            overflow: hidden;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
         }
     </style>
+
+    <!-- Include Leaflet CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script>
+        async function loadLocations() {
+            try {
+                const response = await fetch('/static/great_places.json');
+                const locations = await response.json();
+                console.log("Loaded locations:", locations);
+
+                if (locations.length === 0) {
+                    console.error("No locations found!");
+                    return;
+                }
+
+                // Center map around the first location
+                const map = L.map('map').setView([locations[0].lat, locations[0].lon], 10);
+
+                // Add OpenStreetMap tile layer
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+
+                locations.forEach(place => {
+                    console.log(`Adding marker for: ${place.name} at (${place.lat}, ${place.lon})`);
+
+                    L.marker([place.lat, place.lon], { 
+                        icon: L.icon({ 
+                            iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Map_pin_icon_green.svg', 
+                            iconSize: [25, 41], 
+                            iconAnchor: [12, 41] 
+                        }) 
+                    }).addTo(map)
+                    .bindPopup(`<b>${place.name}</b><br>${place.region}, ${place.country}`);
+                });
+            } catch (error) {
+                console.error("Error loading locations:", error);
+            }
+        }
+
+        // Load locations on page load
+        window.onload = loadLocations;
+    </script>
 </head>
 <body>
-    <!-- Navbar with Earth Icon -->
+
+    <!-- Navbar -->
     <div class="navbar">
         <a href="/">
             <img src="/static/earth.png" alt="Home" class="earth-icon">
         </a>
     </div>
 
-    <h1>Nature Places in India</h1>
-    <div id="placesList"></div>
-    <div id="map"></div>
+    <!-- Content Wrapper -->
+    <div class="content">
+        <div class="aqi-text">Great Places:</div>
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+    </div>
 
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script>
-        const map = L.map('map').setView([20.5937, 78.9629], 5); // Initial view
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '©️ OpenStreetMap contributors'
-        }).addTo(map);
-
-        // Function to fetch and display locations from JSON
-        async function loadLocations() {
-            try {
-                // Fetch the JSON file
-                const response = await fetch('/static/great_places.json'); // Path to your JSON file
-                const locations = await response.json();
-
-                // Create a LatLngBounds object to fit all markers
-                const bounds = L.latLngBounds();
-
-                // Add markers for each location
-                locations.forEach(location => {
-                    const { name, region, country, lat, lon } = location;
-
-                    // Add marker to the map
-                    const marker = L.marker([lat, lon], { icon: L.icon({ iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Map_pin_icon_green.svg', iconSize: [25, 41], iconAnchor: [12, 41] }) }).addTo(map)
-                        .bindPopup(`<b>${name}</b><br>${region}, ${country}`);
-
-                    // Extend the bounds to include this marker
-                    bounds.extend([lat, lon]);
-
-                    // Add location to the list
-                    const placesList = document.getElementById("placesList");
-                    const placeDiv = document.createElement("div");
-                    placeDiv.textContent = `${name} - ${region}, ${country}`;
-                    placesList.appendChild(placeDiv);
-                });
-
-                // Zoom and center the map to fit all markers
-                map.fitBounds(bounds);
-            } catch (error) {
-                console.error("Error loading locations: ", error);
-            }
-        }
-
-        // Load locations when the page loads
-        loadLocations();
-    </script>
 </body>
 </html>
