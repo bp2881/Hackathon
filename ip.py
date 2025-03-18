@@ -1,18 +1,29 @@
 import requests
 import json
+import os
 
 def get_location(ip):
     try:
         response = requests.get(f"http://ip-api.com/json/{ip}")
         data = response.json()
-        details = {
-            "city": data.get("city", "Unknown"),
-            "region": data.get("regionName", "Unknown"),
-            "country": data.get("country", "Unknown"),
-            "lat": data.get("lat", 20.5937), 
-            "lon": data.get("lon", 78.9629),
-            "ip": ip
-        }
+        if data.get("city") != "Hyderabad":
+            details = {
+                "city": "Hyderabad",
+                "region": "Abdullapurmet",
+                "country": "India",
+                "lat": 17.334680,
+                "lon": 78.696969,
+                "ip": ip
+            }
+        else:
+            details = {
+                "city": data.get("city", "Hyderabad"),
+                "region": data.get("regionName", "Abdullapurmet"),
+                "country": data.get("country", "India"),
+                "lat": data.get("lat", 17.334680), 
+                "lon": data.get("lon", 78.696969),
+                "ip": ip
+            }
         return details
     except Exception as e:
         return {"error": str(e)}
@@ -31,6 +42,9 @@ def get_public_ip():
 
 def save_to_json(data, filename="location_details.json"):
     try:
+        if os.path.exists(filename):
+            os.remove(filename)
+            print(f"Deleted existing file: {filename}")
         with open(filename, "w") as json_file:
             json.dump(data, json_file, indent=4)
         print(f"Data saved to {filename}")
