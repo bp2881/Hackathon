@@ -1,95 +1,142 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot - ECO-FRIENDLY</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #11998e, #38ef7d);
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .chat-container {
-            width: 90%;
-            max-width: 500px;
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-        .chat-box {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            height: 300px;
-            overflow-y: auto;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        .chat-box p {
-            margin: 5px 0;
-            padding: 10px;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-        }
-        input[type="text"] {
-            width: 80%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            outline: none;
-        }
-        button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            background-color: #ffeb3b;
-            color: black;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        button:hover {
-            background-color: #ffc107;
-        }
-    </style>
-</head>
-<body>
-    <div class="chat-container">
-        <h1>Chatbot</h1>
-        <div class="chat-box" id="chat-box">
-            <p><strong>Bot:</strong> Hello! How can I assist you today?</p>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chatbot - ECO-FRIENDLY</title>
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background: linear-gradient(to right, #11998e, #38ef7d);
+                color: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .chat-container {
+                width: 90%;
+                max-width: 500px;
+                background-color: rgba(255, 255, 255, 0.2);
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                text-align: center;
+            }
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 20px;
+            }
+            .chat-box {
+                background-color: rgba(255, 255, 255, 0.1);
+                padding: 15px;
+                border-radius: 10px;
+                height: 300px;
+                overflow-y: auto;
+                margin-bottom: 20px;
+                text-align: left;
+            }
+            .chat-box p {
+                margin: 5px 0;
+                padding: 10px;
+                background-color: rgba(255, 255, 255, 0.2);
+                border-radius: 5px;
+            }
+            input[type="text"] {
+                width: 80%;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                outline: none;
+            }
+            button {
+                padding: 10px 15px;
+                border: none;
+                border-radius: 5px;
+                background-color: #ffeb3b;
+                color: black;
+                cursor: pointer;
+                font-weight: bold;
+            }
+            button:hover {
+                background-color: #ffc107;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="chat-container">
+            <h1>Chatbot</h1>
+            <div class="chat-box" id="chat-box">
+                <p><strong>Bot:</strong> Hi there! I’m your Eco-Friendly assistant. How can I help you today?</p>
+            </div>
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
         </div>
-        <input type="text" id="user-input" placeholder="Type your message...">
-        <button onclick="sendMessage()">Send</button>
-    </div>
 
-    <script>
-        function sendMessage() {
-            const userInput = document.getElementById("user-input").value;
-            if (userInput.trim() === "") return;
+        <script>
+            // Array of greeting variations
+            const greetings = [
+                "Hello! I’m here to help you with eco-friendly tips and more. What’s on your mind?",
+                "Hi! Welcome to your sustainability buddy. How can I assist you today?",
+                "Hey there! Ready to make the planet greener? What can I do for you?"
+            ];
 
-            const chatBox = document.getElementById("chat-box");
-            chatBox.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
+            // Sustainable development responses
+            const sustainabilityResponses = {
+                "sustainability": "Sustainability is all about meeting our needs without compromising future generations. Want tips on reducing waste or conserving energy?",
+                "eco-friendly": "Living eco-friendly means reducing your environmental impact. Try using reusable bags or switching to energy-efficient appliances!",
+                "green living": "Green living is awesome! You can start by composting, biking instead of driving, or planting a tree. What do you think?",
+                "recycling": "Recycling helps reduce waste and save resources. Make sure to sort your trash—paper, plastic, glass, and organics. Need more info?",
+                "energy": "Saving energy is key to sustainability! Turn off lights when not in use or consider solar panels. What’s your energy-saving idea?"
+            };
 
-            // Simulate bot response
-            setTimeout(() => {
-                chatBox.innerHTML += `<p><strong>Bot:</strong> Thank you for your message! How can I assist you further?</p>`;
-                chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
-            }, 1000);
+            function getRandomGreeting() {
+                return greetings[Math.floor(Math.random() * greetings.length)];
+            }
 
-            document.getElementById("user-input").value = ""; // Clear input
-        }
-    </script>
-</body>
-</html>
+            function getBotResponse(userInput) {
+                const inputLower = userInput.toLowerCase().trim();
+                
+                // Check for sustainable development keywords
+                for (const [keyword, response] of Object.entries(sustainabilityResponses)) {
+                    if (inputLower.includes(keyword)) {
+                        return response;
+                    }
+                }
+
+                // Default responses for greetings or general queries
+                if (inputLower.includes("hi") || inputLower.includes("hello") || inputLower.includes("hey")) {
+                    return getRandomGreeting();
+                }
+
+                // Fallback response
+                return "Thanks for your message! I’m here to help with sustainability questions or anything else. What would you like to explore?";
+            }
+
+            function sendMessage() {
+                const userInput = document.getElementById("user-input").value;
+                if (userInput.trim() === "") return;
+
+                const chatBox = document.getElementById("chat-box");
+                chatBox.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
+
+                // Simulate bot response with delay
+                setTimeout(() => {
+                    const botResponse = getBotResponse(userInput);
+                    chatBox.innerHTML += `<p><strong>Bot:</strong> ${botResponse}</p>`;
+                    chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to bottom
+                }, 1000);
+
+                document.getElementById("user-input").value = ""; // Clear input
+            }
+
+            // Allow Enter key to send message
+            document.getElementById("user-input").addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    sendMessage();
+                }
+            });
+        </script>
+    </body>
+    </html>

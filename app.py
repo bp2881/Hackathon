@@ -79,7 +79,7 @@ def login():
         users = load_users()
         if username in users and users[username]['password'] == password:
             session['username'] = username
-            # Redirect to /home/<user> after successful login
+            # Redirect to /home/<username> after successful login
             return redirect(url_for('user_home', user=username))
         return "Invalid credentials, please try again."
     return render_template('login.html')
@@ -144,6 +144,8 @@ def chatbot():
 # User-specific home route
 @app.route('/home/<user>')
 def user_home(user):
+    if 'username' not in session or session['username'] != user:
+        return redirect(url_for('login'))  # Redirect to login if the user is not authenticated
     user_initial = user[0].upper()  # Get the first letter of the username
     return render_template('afterlogin.html', user_initial=user_initial, username=user)
 
