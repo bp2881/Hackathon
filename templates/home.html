@@ -113,6 +113,20 @@
             padding: 20px;
             color: white;
         }
+        .feedback-button {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .feedback-button:hover {
+            background-color: #0056b3;
+        }
     </style>
     <script>
         let slideIndex = 0;
@@ -143,6 +157,7 @@
             <a href="/eco-locations">Eco-Locations</a>
             <a href="/stores">Stores</a>
             <a href="/sustainable-living">Sustainable Living</a>
+            <a href="/about-us">About Us</a> <!-- Added About Us link -->
         </div>
         <div class="login-signup">
             <a href="/login">Login</a>
@@ -161,6 +176,9 @@
             <li>Green Warrior - 1200 points</li>
             <li>Nature Guardian - 1000 points</li>
         </ul>
+    </div>
+    <div class="feedback-button" onclick="window.location.href='/feedback'">
+        Feedback
     </div>
 </body>
 </html>
