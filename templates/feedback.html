@@ -45,8 +45,8 @@
 
         /* Earth Icon */
         .earth-icon {
-            width: 30px; /* Adjusted size */
-            height: 30px; /* Adjusted size */
+            width: 30px;
+            height: 30px;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
@@ -63,7 +63,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 400px;
             text-align: center;
-            margin-top: 80px; /* Added margin to avoid overlap with navbar */
+            margin-top: 80px;
         }
 
         h1 {
@@ -96,12 +96,6 @@
             background-color: #0056b3;
         }
     </style>
-    <script>
-        function submitFeedback() {
-            alert("Thank you for your feedback!");
-            window.location.href = "/"; // Redirect back to the home page
-        }
-    </script>
 </head>
 <body>
     <!-- Navbar with Earth Icon -->
@@ -114,8 +108,10 @@
     <!-- Feedback Form -->
     <div class="feedback-container">
         <h1>Feedback Form</h1>
-        <textarea placeholder="Enter your feedback here..."></textarea>
-        <button onclick="submitFeedback()">Submit Feedback</button>
+        <form action="/submit_feedback" method="POST">
+            <textarea name="feedback" placeholder="Enter your feedback here..." required></textarea>
+            <button type="submit">Submit Feedback</button>
+        </form>
     </div>
 </body>
 </html>

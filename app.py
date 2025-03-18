@@ -13,6 +13,7 @@ data_path = "./static/aqi_data.csv"
 location_path = "./static/location_details.json"
 stationaries_path = "./static/stationaries.json"
 users_path = "./static/users.json"
+feedbacks_path = "./static/feedbacks.json"  # Added for feedback storage
 
 # Function to fetch AQI data from local CSV
 def get_aqi_data(city_name):
@@ -52,6 +53,18 @@ def load_users():
 def save_users(users):
     with open(users_path, 'w') as file:
         json.dump(users, file, indent=4)
+
+# Function to load feedbacks from JSON
+def load_feedbacks():
+    if os.path.exists(feedbacks_path):
+        with open(feedbacks_path, 'r') as file:
+            return json.load(file)
+    return []  # Return empty list if file doesn’t exist
+
+# Function to save feedbacks to JSON
+def save_feedbacks(feedbacks):
+    with open(feedbacks_path, 'w') as file:
+        json.dump(feedbacks, file, indent=4)
 
 # Chatbot response logic (no API, local AQI data)
 def get_chatbot_response(message, username=None):
@@ -164,6 +177,20 @@ def contact():
 def feedback():
     return render_template('feedback.html')
 
+# Submit Feedback route
+@app.route('/submit_feedback', methods=['POST'])
+def submit_feedback():
+    feedback_text = request.form.get('feedback')
+    if feedback_text:
+        feedbacks = load_feedbacks()
+        feedbacks.append({
+            "username": session.get('username', 'Anonymous'),  # Include username if logged in
+            "feedback": feedback_text,
+            "timestamp": "2025-03-18"  # Hardcoded for now; use datetime for real apps
+        })
+        save_feedbacks(feedbacks)
+    return render_template('feedback_submitted.html')  # Show message for 3 seconds before redirect
+
 # Eco Tips route
 @app.route('/eco-tips')
 def ecotips():
@@ -199,7 +226,7 @@ def chatbot_message():
     response = get_chatbot_response(message, username)
     return jsonify({"response": response})
 
-# User-specific home route with streak
+# User-specific home route with streak and leaderboard
 @app.route('/home/<user>')
 def user_home(user):
     if 'username' not in session or session['username'] != user:
