@@ -46,7 +46,8 @@
             background-color: #004d40;
             padding: 15px;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
             position: fixed;
             width: 100%;
             top: 0;
@@ -61,6 +62,16 @@
         }
         .navbar a:hover {
             background-color: #00695c;
+        }
+        /* Earth Icon */
+        .earth-icon {
+            width: 30px; /* Adjusted size */
+            height: 30px; /* Adjusted size */
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .earth-icon:hover {
+            transform: scale(1.1);
         }
         #map {
             height: 500px;
@@ -80,13 +91,20 @@
     </style>
 </head>
 <body>
+    <!-- Navbar with Earth Icon -->
     <div class="navbar">
-        <a href="/polluted-areas">Polluted Areas</a>
-        <a href="/eco-tips">Eco-Tips</a>
-        <a href="/eco-location">Eco-Locations</a>
-        <a href="/stores">Stores</a>
-        <a href="/aboutus">About us</a>
+        <a href="/">
+            <img src="/static/earth.png" alt="Home" class="earth-icon">
+        </a>
+        <div>
+            <a href="/polluted-areas">Polluted Areas</a>
+            <a href="/eco-tips">Eco-Tips</a>
+            <a href="/eco-location">Eco-Locations</a>
+            <a href="/stores">Stores</a>
+            <a href="/aboutus">About us</a>
+        </div>
     </div>
+
     <h1>Nature Places in India</h1>
     <div style="width: 80%; margin: 20px auto;">
         <input type="text" id="placeName" placeholder="Place Name">
@@ -96,6 +114,7 @@
     </div>
     <div id="placesList"></div>
     <div id="map"></div>
+
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         const places = {};
