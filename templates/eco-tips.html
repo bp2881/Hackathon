@@ -14,31 +14,19 @@
             text-align: center;
         }
 
-        /* Navbar */
-        .navbar {
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Earth Icon */
+        .earth-icon {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 20px;
+            left: 20px;
+            width: 40px; /* Adjusted size */
+            height: 40px; /* Adjusted size */
+            cursor: pointer;
+            transition: transform 0.3s ease;
             z-index: 10;
-            backdrop-filter: blur(10px);
         }
-        .navbar a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #fff;
-            font-weight: bold;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            padding: 8px 12px;
-            border-radius: 5px;
-        }
-        .navbar a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+        .earth-icon:hover {
+            transform: scale(1.1);
         }
 
         /* Container */
@@ -107,17 +95,12 @@
     </style>
 </head>
 <body>
+    <!-- Earth Icon -->
+    <a href="/">
+        <img src="/static/earth.png" alt="Home" class="earth-icon">
+    </a>
 
-    <div class="navbar">
-        <div>
-            <a href="/">Home</a>
-            <a href="/eco-tips">Eco-Tips</a>
-            <a href="/eco-location">Eco-Locations</a>
-            <a href="/stores">Stores</a>
-            <a href="/videos">Sustainability Videos</a>
-        </div>
-    </div>
-
+    <!-- Main Content -->
     <div class="container">
         <h1>🌱 Suggested Videos on Sustainable Living</h1>
         <p>Watch and learn how small changes can make a big impact on the environment!</p>
@@ -177,6 +160,5 @@
             });
         }
     </script>
-
 </body>
 </html>
