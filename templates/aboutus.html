@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eco-Friendly Sustainable Living</title>
+    <title>About Us - Eco-Friendly Sustainable Living</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,41 +18,22 @@
             min-height: 100vh;
         }
 
-        /* Navbar */
-        .navbar {
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        /* Earth Icon */
+        .earth-icon {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 20px;
+            left: 20px;
+            width: 40px; /* Adjusted size */
+            height: 40px; /* Adjusted size */
+            cursor: pointer;
+            transition: transform 0.3s ease;
             z-index: 10;
-            backdrop-filter: blur(10px);
         }
-        .navbar a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #fff;
-            font-weight: bold;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            padding: 8px 12px;
-            border-radius: 5px;
-        }
-        .navbar a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        .auth-links a {
-            margin: 0 10px;
-            text-decoration: none;
-            color: #ffeb3b;
-            font-weight: bold;
+        .earth-icon:hover {
+            transform: scale(1.1);
         }
 
-        /* Eco-Friendly Section */
+        /* About Us Section */
         .container {
             width: 60%;
             max-width: 800px;
@@ -109,32 +90,23 @@
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <div>
-            <a href="/polluted-areas">Polluted Areas</a>
-            <a href="/eco-tips">Eco-Tips</a>
-            <a href="/eco-locations">Eco-Locations</a>
-            <a href="/stores">Stores</a>
-        </div>
-        <div class="auth-links">
-            <a href="/login">Login</a> | <a href="/signup">Sign Up</a>
-        </div>
-    </div>
-    
-    <div class="container" id="eco-container">
-        <h1>🌍 Eco-Friendly Sustainable Living</h1>
-        <p><strong>Why Sustainable Living Matters?</strong></p>
-        <p>Our planet needs us to take action. By making small changes in our daily habits, we can help create a cleaner, healthier, and greener world.</p>
+    <!-- Earth Icon -->
+    <a href="/">
+        <img src="/static/earth.png" alt="Home" class="earth-icon">
+    </a>
+
+    <!-- About Us Content -->
+    <div class="container" id="about-container">
+        <h1>🌍 About Us</h1>
+        <p><strong>Our Mission</strong></p>
+        <p>We are dedicated to promoting sustainable living and environmental awareness. Our mission is to empower individuals and communities to take actionable steps toward a greener future.</p>
         
-        <p><strong>Simple Ways to Live Sustainably:</strong></p>
+        <p><strong>What We Do</strong></p>
         <ul>
-            <li>♻ Reduce waste by using reusable bags, bottles, and containers.</li>
-            <li>💡 Choose energy-efficient appliances and switch to renewable energy.</li>
-            <li>🌱 Support local and eco-friendly businesses.</li>
-            <li>🥗 Eat a more plant-based diet to lower carbon emissions.</li>
-            <li>🚲 Use public transportation, bike, or carpool to reduce pollution.</li>
-            <li>🌳 Plant trees and support reforestation efforts.</li>
-            <li>💧 Conserve water by fixing leaks and using water-saving devices.</li>
+            <li>🌱 Provide resources and tips for sustainable living.</li>
+            <li>♻ Educate on reducing waste and conserving resources.</li>
+            <li>💡 Advocate for renewable energy and eco-friendly practices.</li>
+            <li>🌍 Support global initiatives for a healthier planet.</li>
         </ul>
         
         <p><strong>Join Us in Building a Greener Future!</strong></p>
@@ -145,11 +117,11 @@
 
     <script>
         window.addEventListener("scroll", function () {
-            let ecoDiv = document.getElementById("eco-container");
+            let aboutDiv = document.getElementById("about-container");
             if (window.scrollY > 50) {
-                ecoDiv.classList.add("scrolled");
+                aboutDiv.classList.add("scrolled");
             } else {
-                ecoDiv.classList.remove("scrolled");
+                aboutDiv.classList.remove("scrolled");
             }
         });
     </script>
