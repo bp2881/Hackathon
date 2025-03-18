@@ -28,5 +28,9 @@ def register():
 def ecolocation():
     return render_template('eco-location.html')
 
+@app.route('/polluted-areas')
+def pollutedarea():
+    return render_template('polluted_areas.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
