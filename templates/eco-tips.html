@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustainable Living - Video Suggestions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #11998e, #38ef7d);
+            color: white;
+            text-align: center;
+        }
+
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+        .navbar a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Container */
+        .container {
+            margin-top: 80px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        /* Search bar */
+        .search-container {
+            margin: 20px auto;
+            width: 60%;
+            max-width: 500px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffeb3b;
+            color: black;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #ffc107;
+        }
+
+        /* Video Grid */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .video {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .video:hover {
+            transform: scale(1.05);
+        }
+        iframe {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div>
+            <a href="/">Home</a>
+            <a href="/eco-tips">Eco-Tips</a>
+            <a href="/eco-locations">Eco-Locations</a>
+            <a href="/stores">Stores</a>
+            <a href="/videos">Sustainability Videos</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>🌱 Suggested Videos on Sustainable Living</h1>
+        <p>Watch and learn how small changes can make a big impact on the environment!</p>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search videos..." onkeyup="searchVideos()">
+            <button onclick="searchVideos()">🔍 Search</button>
+        </div>
+
+        <!-- Video Grid -->
+        <div class="video-grid" id="videoGrid">
+            <div class="video" data-title="Sustainable Living Tips">
+                <iframe src="https://www.youtube.com/embed/-kN2RPgfdLg" allowfullscreen></iframe>
+                <p><strong>Sustainable Living Tips</strong></p>
+            </div>
+
+            <div class="video" data-title="Zero Waste Lifestyle">
+                <iframe src="https://www.youtube.com/embed/yWDzcn9d7YA" allowfullscreen></iframe>
+                <p><strong>Zero Waste Lifestyle</strong></p>
+            </div>
+
+            <div class="video" data-title="How to Reduce Carbon Footprint">
+                <iframe src="https://www.youtube.com/embed/NsMjnYwtTew" allowfullscreen></iframe>
+                <p><strong>How to Reduce Your Carbon Footprint</strong></p>
+            </div>
+
+            <div class="video" data-title="Eco-Friendly Products">
+                <iframe src="https://www.youtube.com/embed/b6LuMmThZMQ" allowfullscreen></iframe>
+                <p><strong>Best Eco-Friendly Products</strong></p>
+            </div>
+
+            <div class="video" data-title="Solar Energy Benefits">
+                <iframe src="https://www.youtube.com/embed/h5cm7HOAqZY" allowfullscreen></iframe>
+                <p><strong>Benefits of Solar Energy</strong></p>
+            </div>
+
+            <div class="video" data-title="Plant-Based Diet and Sustainability">
+                <iframe src="https://www.youtube.com/embed/GqgHuxB8N1Y" allowfullscreen></iframe>
+                <p><strong>Plant-Based Diet & Sustainability</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchVideos() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let videos = document.querySelectorAll(".video");
+
+            videos.forEach(video => {
+                let title = video.getAttribute("data-title").toLowerCase();
+                if (title.includes(input)) {
+                    video.style.display = "block";
+                } else {
+                    video.style.display = "none";
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
