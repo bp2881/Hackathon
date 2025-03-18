@@ -14,6 +14,7 @@
             align-items: center;
             flex-direction: column;
             min-height: 100vh;
+            background-color: white;
         }
         .slideshow-container {
             position: fixed;
@@ -41,8 +42,8 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: -1;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 0;
         }
         .navbar {
             width: 100%;
@@ -68,50 +69,43 @@
         .navbar a:hover {
             background-color: #1b4332;
         }
-        .login-signup {
-            display: flex;
-            align-items: center;
-        }
-        .login-signup a {
-            margin: 0 6px;
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-        }
-        .login-signup a:hover {
-            color: white;
-            background-color: #007bff;
-        }
-        .login-signup a + a::before {
-            content: '|';
-            margin: 0 4px;
-            color: white;
-        }
         .container {
+            max-width: 800px;
             text-align: center;
             margin-top: 100px;
-            color: white;
         }
-        h1 {
-            margin: 0;
-            padding: 20px;
+        .container h1 {
             font-size: 4rem;
             font-weight: bold;
+            color: white;
         }
-        p {
-            margin: 0;
-            padding: 10px;
-            font-size: 1.5rem;
+        .container p {
+            font-size: 1.2rem;
+            color: white;
         }
         .sidebar {
+            position: absolute;
+            top: 150px;
+            right: 50px;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .feedback-button {
             position: fixed;
-            right: 0;
-            top: 80px;
-            width: 200px;
-            background-color: rgba(0, 128, 0, 0.8);
-            border-radius: 10px;
-            padding: 20px;
+            bottom: 20px;
+            left: 20px;
+            background-color: #ff9800;
             color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .feedback-button:hover {
+            background-color: #e68900;
         }
     </style>
     <script>
@@ -129,11 +123,19 @@
 </head>
 <body>
     <div class="slideshow-container">
+<<<<<<< Updated upstream
         <div class="slide active" style="background-image: url('/templates/360_F_580266909_D5dxYnKn2R7g4CslQcq6AapsertedJLS.jpg');"></div>
         <div class="slide" style="background-image: url('/templates/nature-3082832_1920.jpg');"></div>
         <div class="slide" style="background-image: url('/templates/Tips-for-Sustainable-Living-During-the-Winter.jpg');"></div>
         <div class="slide" style="background-image: url('/templates/wallpaperflare.com_wallpaper.jpg');"></div>
         <div class="slide" style="background-image: url('/templates/wallpaperflare.com_wallpaper.jpg');"></div>
+=======
+        <div class="slide active" style="background-image: url('/360_F_580266909_D5dxYnKn2R7g4CslQcq6AapsertedJLS.jpg');"></div>
+        <div class="slide" style="background-image: url('/nature-3082832_1920.jpg');"></div>
+        <div class="slide" style="background-image: url('/Tips-for-Sustainable-Living-During-the-Winter.jpg');"></div>
+        <div class="slide" style="background-image: url('/wallpaperflare.com_wallpaper.jpg');"></div>
+        <div class="slide" style="background-image: url('/wallpaperflare.com_wallpaper\ (1\).jpg');"></div>
+>>>>>>> Stashed changes
     </div>
     <div class="overlay"></div>
     <div class="navbar">
@@ -162,5 +164,6 @@
             <li>Nature Guardian - 1000 points</li>
         </ul>
     </div>
+    <button class="feedback-button" onclick="window.location.href='/feedback'">Feedback</button>
 </body>
 </html>
