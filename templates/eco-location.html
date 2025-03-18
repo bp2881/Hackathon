@@ -6,25 +6,96 @@
     <title>Nature Places in India</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; background-color: #f4f4f4; }
-        h1 { font-size: 28px; margin-bottom: 20px; text-align: center; }
-        input, button { margin: 5px 0; padding: 10px; width: 100%; border-radius: 5px; border: 1px solid #ddd; }
-        button { background-color: #007bff; color: white; cursor: pointer; }
-        button:hover { background-color: #0056b3; }
-        .country { margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background-color: white; }
-        .place { margin-left: 20px; }
-        #map { height: 400px; margin-top: 20px; border-radius: 5px; border: 2px solid #ddd; }
+        body {
+            /* Background image for the entire page */
+            background-image: url('/static/nature-3082832_1920.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #80cbc4);
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 60px;
+            font-size: 40px;
+            color: #00695c;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            border: 2px solid #00695c;
+            outline: none;
+        }
+        button {
+            background-color: #004d40;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #00796b;
+        }
+        .navbar {
+            background-color: #004d40;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+        }
+        .navbar a {
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin: 0 5px;
+            border-radius: 5px;
+        }
+        .navbar a:hover {
+            background-color: #00695c;
+        }
+        #map {
+            height: 500px;
+            width: 80%;
+            margin: 20px auto;
+            border: 2px solid #004d40;
+            border-radius: 8px;
+        }
+        #placesList {
+            width: 80%;
+            margin: 0 auto;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
+    <div class="navbar">
+        <a href="#">Polluted Areas</a>
+        <a href="#">Eco-Tips</a>
+        <a href="#">Eco-Locations</a>
+        <a href="#">Stores</a>
+        <a href="#">Sustainable Living</a>
+    </div>
     <h1>Nature Places in India</h1>
-    <input type="text" id="placeName" placeholder="Place Name">
-    <input type="text" id="countryName" placeholder="Country" value="India" readonly>
-    <input type="text" id="area" placeholder="Area">
-    <button onclick="addPlace()">Add Place</button>
+    <div style="width: 80%; margin: 20px auto;">
+        <input type="text" id="placeName" placeholder="Place Name">
+        <input type="text" id="countryName" placeholder="Country" value="India" readonly>
+        <input type="text" id="area" placeholder="Area">
+        <button onclick="addPlace()">Add Place</button>
+    </div>
     <div id="placesList"></div>
     <div id="map"></div>
-
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         const places = {};
@@ -40,6 +111,14 @@
             const area = document.getElementById("area").value;
 
             if (name && country && area) {
+                if (!/^[a-zA-Z ]+$/.test(name)) {
+                    alert('Invalid place name. Please use letters and spaces only.');
+                    return;
+                }
+                if (!/^[a-zA-Z ]+$/.test(area)) {
+                    alert('Invalid area name. Please use letters and spaces only.');
+                    return;
+                }
                 if (!places[country]) {
                     places[country] = [];
                 }
@@ -58,7 +137,7 @@
                 .then(data => {
                     if (data.length > 0) {
                         const { lat, lon } = data[0];
-                        L.marker([lat, lon]).addTo(map)
+                        L.marker([lat, lon], { icon: L.icon({ iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Map_pin_icon_green.svg', iconSize: [25, 41], iconAnchor: [12, 41] }) }).addTo(map)
                             .bindPopup(`<b>${query}</b>`)
                             .openPopup();
                         map.setView([lat, lon], 8);
@@ -70,15 +149,16 @@
         function displayPlaces() {
             const placesList = document.getElementById("placesList");
             placesList.innerHTML = "";
+            const errorMessage = document.createElement("div");
+            errorMessage.style.color = "red";
+            placesList.appendChild(errorMessage);
 
             for (const country in places) {
                 const countryDiv = document.createElement("div");
-                countryDiv.className = "country";
                 countryDiv.innerHTML = `<strong>${country}</strong>`;
 
                 places[country].forEach(place => {
                     const placeDiv = document.createElement("div");
-                    placeDiv.className = "place";
                     placeDiv.textContent = `${place.name} - ${place.area}`;
                     countryDiv.appendChild(placeDiv);
                 });
