@@ -1,13 +1,19 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 import csv
 import json
 import os
 
 app = Flask(__name__)
+app.secret_key = "supersecretkey"
+app.config['WTF_CSRF_ENABLED'] = False  # Disable CSRF protection for testing
 
-data_path = "./static/aqi_data.csv"  # Path to the AQI data file
-location_path = "./static/location_details.json"  # Path to the location details file
+# Paths to data files
+data_path = "./static/aqi_data.csv"
+location_path = "./static/location_details.json"
+stationaries_path = "./static/stationaries.json"
+users_path = "./static/users.json"
 
+# Function to fetch AQI data
 def get_aqi_data(city_name):
     try:
         with open(data_path, mode='r', encoding='utf-8') as file:
@@ -25,6 +31,7 @@ def get_aqi_data(city_name):
     except Exception as e:
         return {"error": str(e)}
 
+# Function to get the city name from location_details.json
 def get_city_from_location():
     try:
         with open(location_path, 'r') as file:
@@ -33,10 +40,24 @@ def get_city_from_location():
     except Exception as e:
         return ""
 
+# Function to load users from the JSON file
+def load_users():
+    if os.path.exists(users_path):
+        with open(users_path, 'r') as file:
+            return json.load(file)
+    return {}
+
+# Function to save users to the JSON file
+def save_users(users):
+    with open(users_path, 'w') as file:
+        json.dump(users, file, indent=4)
+
+# Home route
 @app.route('/')
 def home():
     return render_template('home.html')
 
+# AQI route
 @app.route('/aqi', methods=['GET'])
 def aqi():
     city = request.args.get('city', get_city_from_location())
@@ -49,10 +70,38 @@ def aqi():
 def about():
     return render_template('aboutus.html')
 
+# Login route
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        users = load_users()
+        if username in users and users[username]['password'] == password:
+            session['username'] = username
+            return redirect(url_for('home'))
+        return "Invalid credentials, please try again."
+    return render_template('login.html')
+
 # Signup route
-@app.route('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        users = load_users()
+        if username in users:
+            return "Username already exists."
+        users[username] = {'password': password}
+        save_users(users)
+        return redirect(url_for('login'))
     return render_template('signup.html')
+
+# Logout route
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('home'))
 
 # Contact Us route
 @app.route('/contactus')
@@ -63,11 +112,6 @@ def contact():
 @app.route('/feedback')
 def feedback():
     return render_template('feedback.html')
-
-# Login route
-@app.route('/login')
-def login():
-    return render_template('login.html')
 
 # Eco Tips route
 @app.route('/eco-tips')
@@ -82,17 +126,23 @@ def ecolocation():
 # Polluted Areas route
 @app.route('/pollutedareas')
 def pollutedarea():
-    return render_template('polluted_areas.html')
+    city = get_city_from_location()
+    aqi_data = get_aqi_data(city) if city else {"error": "Could not determine city from location."}
+    return render_template('polluted_areas.html', aqi_data=aqi_data)
 
 # Stores route
 @app.route('/stores')
 def stores():
-    return render_template('stores.html')
+    return render_template('getapi.html')
 
 # Chatbot route
 @app.route('/chatbot')
 def chatbot():
     return render_template("chatbot.html")
+
+@app.route('/home/<user>')
+def user_home(user):
+    return render_template('afterlogin.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

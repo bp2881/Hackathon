@@ -98,7 +98,7 @@
 <body>
     <div class="navbar">
         <div>
-            <a href="/populatedareas">Polluted Areas</a>
+            <a href="/pollutedareas">Polluted Areas</a>
             <a href="/eco-tips">Eco-Tips</a>
             <a href="/eco-location">Eco-Locations</a>
             <a href="/stores">Stores</a>
@@ -112,9 +112,9 @@
         <p>Join Us in Making the Planet Greener and Cleaner</p>
         <div class="login-container">
             <h2>Login</h2>
-            <form>
-                <input type="text" placeholder="Username" required>
-                <input type="password" placeholder="Password" required>
+            <form action="/login" method="POST">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
                 <button type="submit">Login</button>
             </form>
             <p><a href="/signup">Don't have an account? Sign up</a></p>
