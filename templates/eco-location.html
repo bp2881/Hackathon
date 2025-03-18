@@ -46,22 +46,12 @@
             background-color: #004d40;
             padding: 15px;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start; /* Align icon to the left */
             align-items: center;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 10;
-        }
-        .navbar a {
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            margin: 0 5px;
-            border-radius: 5px;
-        }
-        .navbar a:hover {
-            background-color: #00695c;
         }
         /* Earth Icon */
         .earth-icon {
@@ -96,13 +86,6 @@
         <a href="/">
             <img src="/static/earth.png" alt="Home" class="earth-icon">
         </a>
-        <div>
-            <a href="/polluted-areas">Polluted Areas</a>
-            <a href="/eco-tips">Eco-Tips</a>
-            <a href="/eco-location">Eco-Locations</a>
-            <a href="/stores">Stores</a>
-            <a href="/aboutus">About us</a>
-        </div>
     </div>
 
     <h1>Nature Places in India</h1>
@@ -121,7 +104,7 @@
         const map = L.map('map').setView([20.5937, 78.9629], 5);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
+            attribution: '©️ OpenStreetMap contributors'
         }).addTo(map);
 
         function addPlace() {
