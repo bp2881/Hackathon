@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nature Places in India</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; background-color: #f4f4f4; }
+        h1 { font-size: 28px; margin-bottom: 20px; text-align: center; }
+        input, button { margin: 5px 0; padding: 10px; width: 100%; border-radius: 5px; border: 1px solid #ddd; }
+        button { background-color: #007bff; color: white; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .country { margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background-color: white; }
+        .place { margin-left: 20px; }
+        #map { height: 400px; margin-top: 20px; border-radius: 5px; border: 2px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Nature Places in India</h1>
+    <input type="text" id="placeName" placeholder="Place Name">
+    <input type="text" id="countryName" placeholder="Country" value="India" readonly>
+    <input type="text" id="area" placeholder="Area">
+    <button onclick="addPlace()">Add Place</button>
+    <div id="placesList"></div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        const places = {};
+        const map = L.map('map').setView([20.5937, 78.9629], 5);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        function addPlace() {
+            const name = document.getElementById("placeName").value;
+            const country = document.getElementById("countryName").value;
+            const area = document.getElementById("area").value;
+
+            if (name && country && area) {
+                if (!places[country]) {
+                    places[country] = [];
+                }
+                places[country].push({ name, area });
+                fetchLocation(name + ', ' + country);
+                displayPlaces();
+
+                document.getElementById("placeName").value = "";
+                document.getElementById("area").value = "";
+            }
+        }
+
+        function fetchLocation(query) {
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        const { lat, lon } = data[0];
+                        L.marker([lat, lon]).addTo(map)
+                            .bindPopup(`<b>${query}</b>`)
+                            .openPopup();
+                        map.setView([lat, lon], 8);
+                    }
+                })
+                .catch(err => console.error("Error fetching location: ", err));
+        }
+
+        function displayPlaces() {
+            const placesList = document.getElementById("placesList");
+            placesList.innerHTML = "";
+
+            for (const country in places) {
+                const countryDiv = document.createElement("div");
+                countryDiv.className = "country";
+                countryDiv.innerHTML = `<strong>${country}</strong>`;
+
+                places[country].forEach(place => {
+                    const placeDiv = document.createElement("div");
+                    placeDiv.className = "place";
+                    placeDiv.textContent = `${place.name} - ${place.area}`;
+                    countryDiv.appendChild(placeDiv);
+                });
+
+                placesList.appendChild(countryDiv);
+            }
+        }
+    </script>
+</body>
+</html>
