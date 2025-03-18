@@ -24,6 +24,9 @@ def login():
 def register():
     return render_template('register.html')
 
+@app.route('/eco-locations')
+def ecolocation():
+    return render_template('eco-location.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
