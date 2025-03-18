@@ -69,42 +69,49 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        const map = L.map('map').setView([20.5937, 78.9629], 5);
+        const map = L.map('map').setView([20.5937, 78.9629], 5); // Initial view
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '©️ OpenStreetMap contributors'
         }).addTo(map);
 
-        // Function to fetch and display your location from JSON
-        async function loadLocation() {
+        // Function to fetch and display locations from JSON
+        async function loadLocations() {
             try {
                 // Fetch the JSON file
-                const response = await fetch('/static/location_details.json'); // Path to your JSON file
-                const location = await response.json();
+                const response = await fetch('/static/great_places.json'); // Path to your JSON file
+                const locations = await response.json();
 
-                // Extract location details
-                const { city, region, country, lat, lon, ip } = location;
+                // Create a LatLngBounds object to fit all markers
+                const bounds = L.latLngBounds();
 
-                // Add marker to the map
-                L.marker([lat, lon], { icon: L.icon({ iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Map_pin_icon_green.svg', iconSize: [25, 41], iconAnchor: [12, 41] }) }).addTo(map)
-                    .bindPopup(`<b>${city}, ${region}</b><br>${country}<br>IP: ${ip}`)
-                    .openPopup();
+                // Add markers for each location
+                locations.forEach(location => {
+                    const { name, region, country, lat, lon } = location;
 
-                // Center the map on your location
-                map.setView([lat, lon], 10);
+                    // Add marker to the map
+                    const marker = L.marker([lat, lon], { icon: L.icon({ iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Map_pin_icon_green.svg', iconSize: [25, 41], iconAnchor: [12, 41] }) }).addTo(map)
+                        .bindPopup(`<b>${name}</b><br>${region}, ${country}`);
 
-                // Display location in the list
-                const placesList = document.getElementById("placesList");
-                const placeDiv = document.createElement("div");
-                placeDiv.textContent = `${city}, ${region}, ${country}`;
-                placesList.appendChild(placeDiv);
+                    // Extend the bounds to include this marker
+                    bounds.extend([lat, lon]);
+
+                    // Add location to the list
+                    const placesList = document.getElementById("placesList");
+                    const placeDiv = document.createElement("div");
+                    placeDiv.textContent = `${name} - ${region}, ${country}`;
+                    placesList.appendChild(placeDiv);
+                });
+
+                // Zoom and center the map to fit all markers
+                map.fitBounds(bounds);
             } catch (error) {
-                console.error("Error loading location: ", error);
+                console.error("Error loading locations: ", error);
             }
         }
 
-        // Load your location when the page loads
-        loadLocation();
+        // Load locations when the page loads
+        loadLocations();
     </script>
 </body>
 </html>
