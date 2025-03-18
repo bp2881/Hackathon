@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Governance - Eco-Friendly Stores</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .navbar {
+            width: 100%;
+            background-color: rgba(0, 128, 0, 0.8);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            color: white;
+        }
+        .navbar a {
+            color: white;
+            font-weight: bold;
+            padding: 8px 12px;
+            margin: 0 5px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .navbar a:hover {
+            background-color: #1b4332;
+        }
+        .map-container {
+            margin-top: 80px;
+            width: 100%;
+            height: calc(100vh - 80px);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div>
+            <a href="/templates/pop.html">Polluted Areas</a>
+            <a href="/templates/">Eco-Tips</a>
+            <a href="/templates/eco-location.html">Eco-Locations</a>
+            <a href="/templates/store.html">Stores</a>
+            <a href="/templates/">About us</a>
+        </div>
+        <div class="login-signup">
+            <a href="/templates/login.html">Login</a>
+            <span style="color: white; margin: 0 4px;">|</span>
+            <a href="/templates/signup.html">Sign Up</a>
+        </div>
+    </div>
+    <div class="map-container">
+        <iframe
+            width="100%"
+            height="100%"
+            frameborder="0"
+            style="border:0"
+            src="https://www.google.com/maps/embed/v1/search?key=YOUR_API_KEY&q=eco-friendly+stores"
+            allowfullscreen>
+        </iframe>
+    </div>
+</body>
+</html>
