@@ -18,11 +18,18 @@ def signup():
 def contact():
     return render_template('contactus.html')
 
+@app.route('/feedback')
+def feedback():
+    return render_template('feedback.html')
+
 #create for render login.html
 @app.route('/login')
 def login():
     return render_template('login.html')
 
+@app.route('/eco-tips')
+def ecotips():
+    return render_template('eco-tips.html')
 
 @app.route('/eco-location')
 def ecolocation():
@@ -37,4 +44,4 @@ def stores():
     return render_template('stores.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
